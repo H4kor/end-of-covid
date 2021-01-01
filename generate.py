@@ -3,6 +3,7 @@ from datetime import date, timedelta
 from urllib.parse import urljoin
 import requests
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from tqdm import tqdm
 
 COVID_API = "https://covid-api.com/api/"
 
@@ -114,7 +115,7 @@ def main():
     regions = requests.get(urljoin(COVID_API, "regions")).json()["data"]
     regions = sorted(regions, key=lambda x: x["name"])
     render_world(regions)
-    for region in regions:
+    for region in tqdm(regions):
         render_region(regions, region)
 
 if __name__ == '__main__':
