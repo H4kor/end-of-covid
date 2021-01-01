@@ -37,6 +37,7 @@ def render_world(regions):
         lastDate = (nowDate - timedelta(days = 7))
         last = get_data(lastDate)
     except NoDataError:
+        print("No data for", "World")
         errorTemplate = env.get_template("error.html")
         html = errorTemplate.render(
             regionCode="world",
@@ -75,6 +76,7 @@ def render_region(regions, region):
         lastDate = (nowDate - timedelta(days = 7))
         last = get_data(lastDate, regionCode)
     except NoDataError:
+        print("No data for", region["name"])
         errorTemplate = env.get_template("error.html")
         html = errorTemplate.render(
             regionCode=regionCode,
