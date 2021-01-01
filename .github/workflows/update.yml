@@ -22,12 +22,12 @@ jobs:
           git config --global user.name "Automated Deploy"
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Deploy
+      - name: Build
         run: |-
           python generate.py
-          cd dist
-          git init
-          git add -A
-          git commit -m 'deploy'
-          git push -f orign master:gh-pages
-          cd -
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          
