@@ -494,11 +494,14 @@
     var regionSelect = document.getElementById("region");
     regionSelect.onchange = function() {
       console.log(regionSelect.value)
-      if(regionSelect.value == "world") {
-        window.location.href = "/";
-      } else {
-        window.location.href = "/" + regionSelect.value + ".html";
-      }
+      
+        if(regionSelect.value == "world") {
+          window.location.href = ".";
+        } else {
+          window.location.href = regionSelect.value + ".html"; 
+        }
+
+      
     }
 
     function updateGraph () {
