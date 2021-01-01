@@ -24,4 +24,10 @@ jobs:
           pip install -r requirements.txt
       - name: Deploy
         run: |-
-          ./deploy.sh
+          python generate.py
+          cd dist
+          git init
+          git add -A
+          git commit -m 'deploy'
+          git push -f master:gh-pages
+          cd -
