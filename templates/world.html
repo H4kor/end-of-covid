@@ -80,11 +80,18 @@
     var regionSelect = document.getElementById("region");
     regionSelect.onchange = function() {
       console.log(regionSelect.value)
-      if(regionSelect.value == "world") {
-        window.location.href = "/";
-      } else {
-        window.location.href = "/" + regionSelect.value + ".html";
-      }
+      {% if regionName == "world" %}
+        if(regionSelect.value != "world") {
+          window.location.href = regionSelect.value + ".html";
+        }
+      {% else %}
+        if(regionSelect.value == "world") {
+          window.location.href = ".";
+        } else {
+          window.location.href = regionSelect.value + ".html"; 
+        }
+
+      {% endif %}
     }
 
     function updateGraph () {
