@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>End of Covid19 - {{regionName}}</title>
+  <style type="text/css" media="screen">
+    body{
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 60px;
+    }
+
+    h1 {
+      font-size: 4em;
+    }
+  </style>
+</head>
+<body>
+  <h3>
+    {{regionName}}
+  </h3>
+  <article>
+    <h1>No data available</h1>
+  </article>
+
+  <br>
+  <br>
+  <br>
+
+  <nav>
+    Change Region:
+    <select id="region" name="region">
+        <option value="world" {%if regionCode=="world"%}selected="selected"{%endif%}>World</option>
+      {% for region in regions %}
+        <option value="{{region.iso}}" {%if regionCode==region.iso%}selected="selected"{%endif%}>{{region.name}}</option>
+      {% endfor %}
+    </select>
+  </nav>
+  
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <script src="Chart.js"></script>
+  <script type="text/javascript">
+    var regionSelect = document.getElementById("region");
+    regionSelect.onchange = function() {
+      console.log(regionSelect.value)
+      if(regionSelect.value == "world") {
+        window.location.href = "/";
+      } else {
+        window.location.href = "/" + regionSelect.value + ".html";
+      }
+    }
+  </script>
+</body>
+</html>

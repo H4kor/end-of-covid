@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>End of Covid19 - {{regionName}}</title>
+  <style type="text/css" media="screen">
+    body{
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 60px;
+    }
+
+    h1 {
+      font-size: 4em;
+    }
+  </style>
+</head>
+<body>
+  <h3>
+    {{regionName}}
+  </h3>
+  <article>
+    {% if difference >= 0 %}
+      <h1>
+        No end in sight
+      </h1>
+    {% elif endInWeeks < 0.01 %}
+      <h1>
+        The pandemic is over!
+      </h1>
+    {% elif endInWeeks < 1 %}
+      <h1>
+        The pandemic will within a week!
+      </h1>
+    {% else %}
+      <h1>
+        The Pandemic will end in {{ endInWeeks }} weeks.
+      </h1>
+    {% endif %}
+    <h2>
+      {{ '{:,}'.format(now.active) }} Active Cases
+    </h2>
+    <h3>
+      {{ '{:+,}'.format(difference) }} active cases last week
+    </h3>
+    <br>
+    <br>
+    <br>
+    <div style="position: relative; margin: 0 auto; height:40vh; width:80vw">
+      <canvas id="chart" width="400" height="400"></canvas>
+    </div>
+  </article>
+
+  <br>
+  <br>
+  <br>
+
+  <nav>
+    Change Region:
+    <select id="region" name="region">
+        <option value="world" {%if regionCode=="world"%}selected="selected"{%endif%}>World</option>
+      {% for region in regions %}
+        <option value="{{region.iso}}" {%if regionCode==region.iso%}selected="selected"{%endif%}>{{region.name}}</option>
+      {% endfor %}
+    </select>
+  </nav>
+  
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <script src="Chart.js"></script>
+  <script type="text/javascript">
+    var regionSelect = document.getElementById("region");
+    regionSelect.onchange = function() {
+      console.log(regionSelect.value)
+      if(regionSelect.value == "world") {
+        window.location.href = "/";
+      } else {
+        window.location.href = "/" + regionSelect.value + ".html";
+      }
+    }
+
+    function updateGraph () {
+      var cases = []
+      var labels = []
+      for (var i = 0; i < 26; i++) {
+        if (i === 0) labels.push('Last week')
+        else if (i === 1) labels.push('Now')
+        else labels.push(`+ ${i - 1} weeks`)
+
+        if (i === 0) cases.push({{last.active}})
+        else if (i === 1) cases.push({{now.active}})
+        else cases.push(cases[i - 1] * {{rwk}})
+      }
+
+      var ctx = document.getElementById('chart').getContext('2d')
+      var chartObj = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Active Cases',
+            backgroundColor: '#f00',
+            data: cases,
+            fill: true
+          }]
+        },
+        options: {
+          maintainAspectRatio: false
+        }
+      })
+      chartObj.canvas.parentNode.style.height = '60vh'
+    }
+
+    updateGraph()
+
+  </script>
+</body>
+</html>
