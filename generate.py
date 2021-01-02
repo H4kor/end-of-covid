@@ -1,6 +1,6 @@
 import math
 from datetime import date, timedelta
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlencode
 import requests
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from tqdm import tqdm
@@ -15,11 +15,15 @@ env = Environment(
 class NoDataError(Exception):
     pass
 
-def get_data(date, iso=None):
+def get_data(date=None, iso=None):
+    query = {}
+    if date:
+        query["date"] = date
+
     if iso == None:
-        resp = requests.get(urljoin(COVID_API, f"reports/total?date={date.isoformat()}")).json()["data"]
+        resp = requests.get(urljoin(COVID_API, f"reports/total?{urlencode(query)}")).json()["data"]
     else:
-        resp = requests.get(urljoin(COVID_API, f"reports?iso={iso}&date={date.isoformat()}")).json()["data"]
+        resp = requests.get(urljoin(COVID_API, f"reports?iso={iso}&{urlencode(query)}")).json()["data"]
 
     if isinstance(resp, list):
         if len(resp) == 0:
@@ -31,8 +35,8 @@ def get_data(date, iso=None):
 def render_world(regions):
     template = env.get_template("world.html")
     try:
-        nowDate = (date.today() - timedelta(days = 1))
-        now = get_data(nowDate)
+        now = get_data(None)
+        nowDate = (date.fromisoformat(now["date"]) - timedelta(days = 1))
 
         lastDate = (nowDate - timedelta(days = 7))
         last = get_data(lastDate)
@@ -60,6 +64,7 @@ def render_world(regions):
             regionName="World",
             regions=regions,
             rwk=rwk,
+            nowDate=nowDate
         )
     
     with open('dist/index.html', 'w') as f:
@@ -70,8 +75,8 @@ def render_region(regions, region):
     template = env.get_template("world.html")
 
     try:
-        nowDate = (date.today() - timedelta(days = 1))
-        now = get_data(nowDate, regionCode)
+        now = get_data(None, regionCode)
+        nowDate = (date.fromisoformat(now["date"]) - timedelta(days = 1))
 
         lastDate = (nowDate - timedelta(days = 7))
         last = get_data(lastDate, regionCode)
@@ -107,6 +112,7 @@ def render_region(regions, region):
             regionName=region["name"],
             regions=regions,
             rwk=rwk,
+            nowDate=nowDate
         )
 
     with open(f'dist/{regionCode}.html', 'w') as f:
@@ -117,7 +123,7 @@ def main():
     regions = requests.get(urljoin(COVID_API, "regions")).json()["data"]
     regions = sorted(regions, key=lambda x: x["name"])
     render_world(regions)
-    for region in tqdm(regions):
+    for region in tqdm(regions[:4]):
         render_region(regions, region)
 
 if __name__ == '__main__':
