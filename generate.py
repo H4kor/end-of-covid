@@ -123,7 +123,7 @@ def main():
     regions = requests.get(urljoin(COVID_API, "regions")).json()["data"]
     regions = sorted(regions, key=lambda x: x["name"])
     render_world(regions)
-    for region in tqdm(regions[:4]):
+    for region in tqdm(regions):
         render_region(regions, region)
 
 if __name__ == '__main__':
