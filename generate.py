@@ -36,7 +36,7 @@ def render_world(regions):
     template = env.get_template("world.html")
     try:
         now = get_data(None)
-        nowDate = (date.fromisoformat(now["date"]) - timedelta(days = 1))
+        nowDate = date.fromisoformat(now["date"])
 
         lastDate = (nowDate - timedelta(days = 7))
         last = get_data(lastDate)
@@ -76,7 +76,7 @@ def render_region(regions, region):
 
     try:
         now = get_data(None, regionCode)
-        nowDate = (date.fromisoformat(now["date"]) - timedelta(days = 1))
+        nowDate = date.fromisoformat(now["date"])
 
         lastDate = (nowDate - timedelta(days = 7))
         last = get_data(lastDate, regionCode)
