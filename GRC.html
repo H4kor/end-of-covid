@@ -24,23 +24,7 @@
     Greece
   </h3>
   <article>
-    
-      <h1>
-        No end in sight
-      </h1>
-    
-    <h2>
-      40,248 Active Cases
-    </h2>
-    <h3>
-      +4,234 active cases last week
-    </h3>
-    <br>
-    <br>
-    <br>
-    <div style="position: relative; margin: 0 auto; height:40vh; width:80vw">
-      <canvas id="chart" width="400" height="400"></canvas>
-    </div>
+    <h1>No data available</h1>
   </article>
 
   <br>
@@ -502,51 +486,8 @@
         } else {
           window.location.href = regionSelect.value + ".html"; 
         }
-
       
     }
-
-    function updateGraph () {
-      var cases = []
-      var labels = []
-      for (var i = 0; i < 26; i++) {
-        if (i === 0) labels.push('Last week')
-        else if (i === 1) labels.push('Now')
-        else labels.push(`+ ${i - 1} weeks`)
-
-        if (i === 0) cases.push(36014)
-        else if (i === 1) cases.push(40248)
-        else cases.push(cases[i - 1] * 1.1175653912367414)
-      }
-
-      var ctx = document.getElementById('chart').getContext('2d')
-      var chartObj = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Active Cases',
-            backgroundColor: '#f00',
-            data: cases,
-            fill: true
-          }]
-        },
-        options: {
-          maintainAspectRatio: false,
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          }          
-        }
-      })
-      chartObj.canvas.parentNode.style.height = '60vh'
-    }
-
-    updateGraph()
-
   </script>
 </body>
 </html>
