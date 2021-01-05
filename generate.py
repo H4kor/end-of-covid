@@ -1,11 +1,10 @@
 import math
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from urllib.parse import urljoin, urlencode
-import requests
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from tqdm import tqdm
+import pandas as pd
 
-COVID_API = "https://covid-api.com/api/"
 
 env = Environment(
     loader=FileSystemLoader('templates'),
@@ -15,28 +14,33 @@ env = Environment(
 class NoDataError(Exception):
     pass
 
+
+deaths = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv").groupby(["Country/Region"]).sum()
+recovered = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv").groupby(["Country/Region"]).sum()
+confirmed = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv").groupby(["Country/Region"]).sum()
+active = confirmed - recovered - deaths
+
 def get_data(date=None, iso=None):
-    query = {}
-    if date:
-        query["date"] = date
+    result = {}
+    if not date:
+        result["date"] = datetime.strptime(active.columns[-1], "%m/%d/%y").date()
+    else:
+        result["date"] = date
+
+    col = result["date"].strftime("%m/%d/%y").lstrip("0").replace("/0", "/")
 
     if iso == None:
-        resp = requests.get(urljoin(COVID_API, f"reports/total?{urlencode(query)}")).json()["data"]
+        result["active"] = active[col].sum()
     else:
-        resp = requests.get(urljoin(COVID_API, f"reports?iso={iso}&{urlencode(query)}")).json()["data"]
+        result["active"] = active.loc[iso, col]
 
-    if isinstance(resp, list):
-        if len(resp) == 0:
-            raise NoDataError
-        resp = max(resp, key=lambda x: x["active"])
-
-    return resp
+    return result
 
 def render_world(regions):
     template = env.get_template("world.html")
     try:
         now = get_data(None)
-        nowDate = date.fromisoformat(now["date"])
+        nowDate = now["date"]
 
         lastDate = (nowDate - timedelta(days = 7))
         last = get_data(lastDate)
@@ -76,7 +80,7 @@ def render_region(regions, region):
 
     try:
         now = get_data(None, regionCode)
-        nowDate = date.fromisoformat(now["date"])
+        nowDate = now["date"]
 
         lastDate = (nowDate - timedelta(days = 7))
         last = get_data(lastDate, regionCode)
@@ -120,8 +124,7 @@ def render_region(regions, region):
 
 
 def main():
-    regions = requests.get(urljoin(COVID_API, "regions")).json()["data"]
-    regions = sorted(regions, key=lambda x: x["name"])
+    regions = list(map(lambda x: {"iso": x, "name": x}, active.index))
     render_world(regions)
     for region in tqdm(regions):
         render_region(regions, region)
