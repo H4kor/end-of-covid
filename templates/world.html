@@ -24,23 +24,45 @@
     {{regionName}}
   </h3>
   <article>
-    {% if endInWeeksLow < 0 %}
+    {% if endInWeeksLow < 0 and endInWeeksHigh < 0 %}
       <h1>
         No end in sight
       </h1>
-    {% elif endInWeeksLow < 0.01 and endInWeeksLow > 0.0 and endInWeeksLow < 0.01 and endInWeeksLow > 0.0 %}
-      <h1>
-        The pandemic is over! {{endInWeeks}}
-      </h1>
-    {% elif endInWeeksLow < 1 and endInWeeksHigh < 1 and endInWeeksHigh > 0%}
-      <h1>
-        The pandemic will within a week!
-      </h1>
-    {% else %}
+    {% elif endInWeeksLow >= 0 and endInWeeksHigh < 0 %}
+      {# lower bound is good, upper is bad #}
       <h1>
         The Pandemic will end in {{ endInWeeksLow }} to {% if endInWeeksHigh > 0 %}{{ endInWeeksHigh }}{%else%}∞{%endif%} weeks.
+      </h1>    
+    {% elif endInWeeksLow < 0 and endInWeeksHigh >= 0 %}
+      {# lower bound is bad, upper is good #}
+      <h1>
+        Something wead is happening
       </h1>
+    {% elif endInWeeksLow >= 0 and endInWeeksHigh >= 0 %}
+      {# both bounds are good#}
+      {% if endInWeeksLow < 0.01 and endInWeeksLow < 0.01 %}
+        {# both bound very small #}
+        <h1>
+          The pandemic is over!
+        </h1>
+      {% elif endInWeeksLow < 1 and endInWeeksHigh < 1 %}
+        {# both below a week #}
+        <h1>
+          The pandemic will within a week!
+        </h1>
+      {% else %}
+        {% if endInWeeksLow < endInWeeksHigh %}
+          <h1>
+            The Pandemic will end in {{ endInWeeksLow }} to {% if endInWeeksHigh > 0 %}{{ endInWeeksHigh }}{%else%}∞{%endif%} weeks.
+          </h1>
+        {% else %}
+          <h1>
+            The Pandemic will start again in {{ endInWeeksHigh }} to {{ endInWeeksLow }} weeks.
+          </h1>
+        {% endif %}
+      {% endif %}
     {% endif %}
+
     <h2>
       {{ '{:,}'.format(now.active) }} Active Cases
     </h2>
@@ -118,7 +140,7 @@
       var casesHigh = []
       var casesLow = []
       var labels = []
-      for (var i = 0; i < 26; i++) {
+      for (var i = 0; i < 16; i++) {
         if (i === 0) labels.push('Now')
         else labels.push(`+ ${i} weeks`)
 
