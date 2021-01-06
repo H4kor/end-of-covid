@@ -29,15 +29,19 @@
         No end in sight
       </h1>
     
+
     <h2>
       49,445 Active Cases
     </h2>
     <h3>
-      +4,863 active cases last week
+      +6,536 active cases last week
+      <span style="font-size:0.8em;">(± 916)</span>
     </h3>
+
     <br>
     <br>
     <br>
+
     <div style="position: relative; margin: 0 auto; height:40vh; width:80vw">
       <canvas id="chart" width="400" height="400"></canvas>
     </div>
@@ -476,28 +480,53 @@
 
     function updateGraph () {
       var cases = []
+      var casesHigh = []
+      var casesLow = []
       var labels = []
-      for (var i = 0; i < 26; i++) {
-        if (i === 0) labels.push('Last week')
-        else if (i === 1) labels.push('Now')
-        else labels.push(`+ ${i - 1} weeks`)
+      for (var i = 0; i < 16; i++) {
+        if (i === 0) labels.push('Now')
+        else labels.push(`+ ${i} weeks`)
 
-        if (i === 0) cases.push(44582)
-        else if (i === 1) cases.push(49445)
-        else cases.push(cases[i - 1] * 1.1090798977165672)
+        if (i === 0) {
+          cases.push(49445)
+          casesHigh.push(49445)
+          casesLow.push(49445)
+        } else {
+          cases.push(cases[i - 1] * 1.1523261930603736)
+          casesHigh.push(casesHigh[i - 1] * 1.1774630255115075)
+          casesLow.push(casesLow[i - 1] * 1.1282401845245975)
+        }
       }
 
       var ctx = document.getElementById('chart').getContext('2d')
       var chartObj = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: {
           labels,
-          datasets: [{
-            label: 'Active Cases',
-            backgroundColor: '#f00',
-            data: cases,
-            fill: true
-          }]
+          datasets: [
+            {
+              label: 'Active Cases',
+              backgroundColor: '#f00',
+              data: cases,
+              fill: "0"
+            },
+            {
+              label: 'Active Cases (High)',
+              backgroundColor: '#f008',
+              data: casesHigh,
+              fill: "0",
+              pointStyle: null,
+              radius: 0,
+            },
+            {
+              label: 'Active Cases (Low)',
+              backgroundColor: '#f008',
+              data: casesLow,
+              fill: "0",
+              pointStyle: null,
+              radius: 0,
+            }
+          ]
         },
         options: {
           maintainAspectRatio: false,

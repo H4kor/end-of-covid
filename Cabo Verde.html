@@ -25,19 +25,24 @@
   </h3>
   <article>
     
+      
       <h1>
-        No end in sight
-      </h1>
+        The Pandemic will end in 6 to ∞ weeks.
+      </h1>    
     
+
     <h2>
       262 Active Cases
     </h2>
     <h3>
-      +126 active cases last week
+      +29 active cases last week
+      <span style="font-size:0.8em;">(± 78)</span>
     </h3>
+
     <br>
     <br>
     <br>
+
     <div style="position: relative; margin: 0 auto; height:40vh; width:80vw">
       <canvas id="chart" width="400" height="400"></canvas>
     </div>
@@ -476,28 +481,53 @@
 
     function updateGraph () {
       var cases = []
+      var casesHigh = []
+      var casesLow = []
       var labels = []
-      for (var i = 0; i < 26; i++) {
-        if (i === 0) labels.push('Last week')
-        else if (i === 1) labels.push('Now')
-        else labels.push(`+ ${i - 1} weeks`)
+      for (var i = 0; i < 16; i++) {
+        if (i === 0) labels.push('Now')
+        else labels.push(`+ ${i} weeks`)
 
-        if (i === 0) cases.push(136)
-        else if (i === 1) cases.push(262)
-        else cases.push(cases[i - 1] * 1.9264705882352942)
+        if (i === 0) {
+          cases.push(262)
+          casesHigh.push(262)
+          casesLow.push(262)
+        } else {
+          cases.push(cases[i - 1] * 1.1279212792127922)
+          casesHigh.push(casesHigh[i - 1] * 1.7002993764615908)
+          casesLow.push(casesLow[i - 1] * 0.8438521831310494)
+        }
       }
 
       var ctx = document.getElementById('chart').getContext('2d')
       var chartObj = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: {
           labels,
-          datasets: [{
-            label: 'Active Cases',
-            backgroundColor: '#f00',
-            data: cases,
-            fill: true
-          }]
+          datasets: [
+            {
+              label: 'Active Cases',
+              backgroundColor: '#f00',
+              data: cases,
+              fill: "0"
+            },
+            {
+              label: 'Active Cases (High)',
+              backgroundColor: '#f008',
+              data: casesHigh,
+              fill: "0",
+              pointStyle: null,
+              radius: 0,
+            },
+            {
+              label: 'Active Cases (Low)',
+              backgroundColor: '#f008',
+              data: casesLow,
+              fill: "0",
+              pointStyle: null,
+              radius: 0,
+            }
+          ]
         },
         options: {
           maintainAspectRatio: false,
