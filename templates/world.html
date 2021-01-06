@@ -24,32 +24,35 @@
     {{regionName}}
   </h3>
   <article>
-    {% if difference >= 0 %}
+    {% if endInWeeksLow < 0 %}
       <h1>
         No end in sight
       </h1>
-    {% elif endInWeeks < 0.01 %}
+    {% elif endInWeeksLow < 0.01 and endInWeeksLow > 0.0 and endInWeeksLow < 0.01 and endInWeeksLow > 0.0 %}
       <h1>
-        The pandemic is over!
+        The pandemic is over! {{endInWeeks}}
       </h1>
-    {% elif endInWeeks < 1 %}
+    {% elif endInWeeksLow < 1 and endInWeeksHigh < 1 and endInWeeksHigh > 0%}
       <h1>
         The pandemic will within a week!
       </h1>
     {% else %}
       <h1>
-        The Pandemic will end in {{ endInWeeks }} weeks.
+        The Pandemic will end in {{ endInWeeksLow }} to {% if endInWeeksHigh > 0 %}{{ endInWeeksHigh }}{%else%}∞{%endif%} weeks.
       </h1>
     {% endif %}
     <h2>
       {{ '{:,}'.format(now.active) }} Active Cases
     </h2>
     <h3>
-      {{ '{:+,}'.format(difference) }} active cases last week
+      {{ '{:+,}'.format(mean) }} active cases last week
+      <span style="font-size:0.8em;">(± {{ '{:,}'.format(std) }})</span>
     </h3>
+
     <br>
     <br>
     <br>
+
     <div style="position: relative; margin: 0 auto; height:40vh; width:80vw">
       <canvas id="chart" width="400" height="400"></canvas>
     </div>
@@ -58,7 +61,7 @@
   <br>
   <br>
 
-  <div style="font-size:0.8em">Rendered Data: {{nowDate}}</div>
+  <div style="font-size:0.8em">Rendered Data: {{now["date"]}}</div>
 
   <br>
   <br>
@@ -112,28 +115,53 @@
 
     function updateGraph () {
       var cases = []
+      var casesHigh = []
+      var casesLow = []
       var labels = []
       for (var i = 0; i < 26; i++) {
-        if (i === 0) labels.push('Last week')
-        else if (i === 1) labels.push('Now')
-        else labels.push(`+ ${i - 1} weeks`)
+        if (i === 0) labels.push('Now')
+        else labels.push(`+ ${i} weeks`)
 
-        if (i === 0) cases.push({{last.active}})
-        else if (i === 1) cases.push({{now.active}})
-        else cases.push(cases[i - 1] * {{rwk}})
+        if (i === 0) {
+          cases.push({{now.active}})
+          casesHigh.push({{now.active}})
+          casesLow.push({{now.active}})
+        } else {
+          cases.push(cases[i - 1] * {{rwk}})
+          casesHigh.push(casesHigh[i - 1] * {{rwkHigh}})
+          casesLow.push(casesLow[i - 1] * {{rwkLow}})
+        }
       }
 
       var ctx = document.getElementById('chart').getContext('2d')
       var chartObj = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: {
           labels,
-          datasets: [{
-            label: 'Active Cases',
-            backgroundColor: '#f00',
-            data: cases,
-            fill: true
-          }]
+          datasets: [
+            {
+              label: 'Active Cases',
+              backgroundColor: '#f00',
+              data: cases,
+              fill: "0"
+            },
+            {
+              label: 'Active Cases (High)',
+              backgroundColor: '#f008',
+              data: casesHigh,
+              fill: "0",
+              pointStyle: null,
+              radius: 0,
+            },
+            {
+              label: 'Active Cases (Low)',
+              backgroundColor: '#f008',
+              data: casesLow,
+              fill: "0",
+              pointStyle: null,
+              radius: 0,
+            }
+          ]
         },
         options: {
           maintainAspectRatio: false,
