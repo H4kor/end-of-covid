@@ -4,6 +4,7 @@ from urllib.parse import urljoin, urlencode
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from tqdm import tqdm
 import pandas as pd
+import numpy as np
 
 
 env = Environment(
@@ -36,14 +37,71 @@ def get_data(date=None, iso=None):
 
     return result
 
-def render_world(regions):
-    template = env.get_template("world.html")
-    try:
-        now = get_data(None)
-        nowDate = now["date"]
+def get_statistics(iso):
+    now = get_data(None, iso=iso)
+    nowDate = now["date"]
 
-        lastDate = (nowDate - timedelta(days = 7))
-        last = get_data(lastDate)
+    data = []
+    for i in range(0, 7):
+        point_a = (nowDate - timedelta(days = i))
+        point_b = (nowDate - timedelta(days = i + 7))
+        data.append(get_data(point_a, iso=iso)["active"] - get_data(point_b, iso=iso)["active"])
+
+    mean = np.mean(data)
+    std = np.std(data)
+    return now, mean, std
+
+def render_page(now, mean, std, regionCode, regionName, regions, endOn=100):
+    template = env.get_template("world.html")
+    if now["active"] == 0:
+        rwk = 1
+        rwkLow = 1
+        rwkHigh = 1
+    else:
+        rwk = now["active"] / (now["active"] - mean)
+        rwkLow = now["active"] / (now["active"] - (mean - std))
+        rwkHigh = now["active"] / (now["active"] - (mean + std))
+
+    if now["active"] < 1 or rwk < 1e-4:
+        endInWeeks = 0
+    elif rwk == 1.0:
+        endInWeeks = 1000
+    else:
+        endInWeeks = math.ceil(math.log(endOn / now["active"], rwk))
+
+    if now["active"] < 1 or rwkLow < 1e-4:
+        endInWeeksLow = 0
+    elif rwkLow == 1.0:
+        endInWeeksLow = 1000
+    else:
+        endInWeeksLow = math.ceil(math.log(endOn / now["active"], rwkLow))
+
+    if now["active"] < 1 or rwkHigh < 1e-4:
+        endInWeeksHigh = 0
+    elif rwkHigh == 1.0:
+        endInWeeksHigh = 1000
+    else:
+        endInWeeksHigh = math.ceil(math.log(endOn / now["active"], rwkHigh))
+
+    html = template.render(
+        now=now,
+        mean=int(mean),
+        std=int(std),
+        endInWeeks=endInWeeks,
+        endInWeeksLow=endInWeeksLow,
+        endInWeeksHigh=endInWeeksHigh,
+        rwk=rwk,
+        rwkHigh=rwkHigh,
+        rwkLow=rwkLow,
+        regionCode=regionCode,
+        regionName=regionName,
+        regions=regions,
+    )
+    return html
+
+def render_world(regions):
+    try:
+        now, mean, std = get_statistics(None)
     except NoDataError:
         print("No data for", "World")
         errorTemplate = env.get_template("error.html")
@@ -53,24 +111,15 @@ def render_world(regions):
             regions=regions,
         )
     else:
-        difference = now["active"] - last["active"]
-
-        endOn = 100
-        rwk = now["active"] / last["active"]
-        endInWeeks = math.ceil(math.log(endOn / now["active"], rwk))
-
-        html = template.render(
+        html = render_page(
             now=now,
-            last=last,
-            difference=difference,
-            endInWeeks=endInWeeks,
+            mean=mean,
+            std=std,
             regionCode="world",
             regionName="World",
             regions=regions,
-            rwk=rwk,
-            nowDate=nowDate
         )
-    
+
     with open('dist/index.html', 'w') as f:
         f.write(html)
 
@@ -79,11 +128,7 @@ def render_region(regions, region):
     template = env.get_template("world.html")
 
     try:
-        now = get_data(None, regionCode)
-        nowDate = now["date"]
-
-        lastDate = (nowDate - timedelta(days = 7))
-        last = get_data(lastDate, regionCode)
+        now, mean, std = get_statistics(regionCode)
     except NoDataError:
         print("No data for", region["name"])
         errorTemplate = env.get_template("error.html")
@@ -93,30 +138,13 @@ def render_region(regions, region):
             regions=regions,
         )
     else:
-        difference = now["active"] - last["active"]
-
-        endOn = 100
-        if last["active"] == 0:
-            rwk  =1
-        else:
-            rwk = now["active"] / last["active"]
-        if now["active"] < 1 or rwk < 1e-4:
-            endInWeeks = 0
-        elif rwk == 1.0:
-            endInWeeks = 1000
-        else:
-            endInWeeks = math.ceil(math.log(endOn / now["active"], rwk))
-
-        html = template.render(
+        html = render_page(
             now=now,
-            last=last,
-            difference=difference,
-            endInWeeks=endInWeeks,
+            mean=mean,
+            std=std,
             regionCode=regionCode,
             regionName=region["name"],
             regions=regions,
-            rwk=rwk,
-            nowDate=nowDate
         )
 
     with open(f'dist/{regionCode}.html', 'w') as f:
