@@ -47,11 +47,16 @@ def get_statistics(iso):
         point_b = (nowDate - timedelta(days = i + 7))
         data.append(get_data(point_a, iso=iso)["active"] - get_data(point_b, iso=iso)["active"])
 
+    past = []
+    for i in range(-5, 0, 1):
+        p = (nowDate + timedelta(days = i * 7))
+        past.append(get_data(p, iso=iso))
+
     mean = np.mean(data)
     std = np.std(data)
-    return now, mean, std
+    return now, mean, std, past
 
-def render_page(now, mean, std, regionCode, regionName, regions, endOn=100):
+def render_page(now, mean, std, past, regionCode, regionName, regions, endOn=100):
     template = env.get_template("world.html")
     if now["active"] == 0:
         rwk = 1
@@ -89,6 +94,7 @@ def render_page(now, mean, std, regionCode, regionName, regions, endOn=100):
         now=now,
         mean=int(mean),
         std=int(std),
+        past=past,
         endInWeeks=endInWeeks,
         endInWeeksLow=endInWeeksLow,
         endInWeeksHigh=endInWeeksHigh,
@@ -103,7 +109,7 @@ def render_page(now, mean, std, regionCode, regionName, regions, endOn=100):
 
 def render_world(regions):
     try:
-        now, mean, std = get_statistics(None)
+        now, mean, std, past = get_statistics(None)
     except NoDataError:
         print("No data for", "World")
         errorTemplate = env.get_template("error.html")
@@ -117,6 +123,7 @@ def render_world(regions):
             now=now,
             mean=mean,
             std=std,
+            past=past,
             regionCode="world",
             regionName="World",
             regions=regions,
@@ -130,7 +137,7 @@ def render_region(regions, region):
     template = env.get_template("world.html")
 
     try:
-        now, mean, std = get_statistics(regionCode)
+        now, mean, std, past = get_statistics(regionCode)
     except NoDataError:
         print("No data for", region["name"])
         errorTemplate = env.get_template("error.html")
@@ -144,6 +151,7 @@ def render_region(regions, region):
             now=now,
             mean=mean,
             std=std,
+            past=past,
             regionCode=regionCode,
             regionName=region["name"],
             regions=regions,
