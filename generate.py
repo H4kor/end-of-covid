@@ -58,9 +58,10 @@ def render_page(now, mean, std, regionCode, regionName, regions, endOn=100):
         rwkLow = 1
         rwkHigh = 1
     else:
-        rwk = now["active"] / (now["active"] - mean)
-        rwkLow = now["active"] / (now["active"] - (mean - std))
-        rwkHigh = now["active"] / (now["active"] - (mean + std))
+        active = now["active"] + 5
+        rwk = active / (active - mean)
+        rwkLow = active / (active - (mean - std))
+        rwkHigh = active / (active - (mean + std))
 
     if now["active"] < 1 or rwk < 1e-4:
         endInWeeks = 0
@@ -84,6 +85,7 @@ def render_page(now, mean, std, regionCode, regionName, regions, endOn=100):
         endInWeeksHigh = math.ceil(math.log(endOn / now["active"], rwkHigh))
 
     html = template.render(
+        endOn=endOn,
         now=now,
         mean=int(mean),
         std=int(std),
