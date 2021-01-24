@@ -1,0 +1,52 @@
+<h1>
+    Vaccination Progress
+</h1>
+
+<div style="position: relative; margin: 0 auto; height:40vh; width:80vw">
+    <canvas id="vacc-chart" width="400" height="400"></canvas>
+</div>
+
+<script type="text/javascript">
+    function updateVaccGraph () {
+        var first = [{% for i in vaccination.data %}{{i.first}}, {% endfor %}]
+        var full   = [{% for i in vaccination.data %}{{i.full}}, {% endfor %}]
+        var labels = [{% for i in vaccination.data %}'{{i.date}}', {% endfor %}]
+
+        var ctx = document.getElementById('vacc-chart').getContext('2d')
+        var chartObj = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'First Vaccination',
+                        backgroundColor: '#00f8',
+                        data: first,
+                        fill: "1"
+                    },
+                    {
+                        label: 'Full Vaccination',
+                        backgroundColor: '#0f08',
+                        data: full,
+                        fill: "origin",
+                    },
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                return (value * 100).toFixed(3) + '%';
+                            }
+                        },
+                    }]
+                }          
+            }
+        });
+        chartObj.canvas.parentNode.style.height = '60vh'
+    }
+    updateVaccGraph()
+</script>

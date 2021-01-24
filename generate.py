@@ -56,7 +56,7 @@ def get_statistics(iso):
     std = np.std(data)
     return now, mean, std, past
 
-def render_page(now, mean, std, past, regionCode, regionName, regions, endOn=100):
+def render_page(now, mean, std, past, regionCode, regionName, regions, endOn=100, vaccination=None):
     template = env.get_template("world.html")
     if now["active"] == 0:
         rwk = 1
@@ -104,6 +104,7 @@ def render_page(now, mean, std, past, regionCode, regionName, regions, endOn=100
         regionCode=regionCode,
         regionName=regionName,
         regions=regions,
+        vaccination=vaccination
     )
     return html
 
@@ -155,10 +156,31 @@ def render_region(regions, region):
             regionCode=regionCode,
             regionName=region["name"],
             regions=regions,
+            vaccination=get_region_vaccination_data(region["name"])
         )
 
     with open(f'dist/{regionCode}.html', 'w') as f:
         f.write(html)
+
+def get_region_vaccination_data(region):
+    if region == "Germany":
+        df = pd.read_csv("https://impfdashboard.de/static/data/germany_vaccinations_timeseries_v2.tsv", sep='\t')
+        vac = {
+            "data": [],
+            "source": {
+                "url": "https://impfdashboard.de/",
+                "name": "impfdashboard.de, RKI, BMG.",
+            }
+        }
+        for i, r in df.iterrows():
+            vac["data"].append({
+                "date": r["date"],
+                "first": r["impf_quote_erst"],
+                "full": r["impf_quote_voll"],
+            })
+        return vac
+    else:
+        return None
 
 
 def main():
