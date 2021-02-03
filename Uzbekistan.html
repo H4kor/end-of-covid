@@ -424,18 +424,17 @@
         
             
             
-                
                 <h1>
-                    The Pandemic will end earliest in 42 weeks.
-                </h1>    
+                    The Pandemic will end in 43 to 128 weeks.
+                </h1>
             
         
         <h2>
-            913 Active Cases
+            894 Active Cases
         </h2>
         <h3>
-            -18 active cases last week
-            <span style="font-size:0.8em;">(± 32)</span>
+            -31 active cases last week
+            <span style="font-size:0.8em;">(± 16)</span>
         </h3>
 
         <br>
@@ -451,8 +450,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2021-02-01<br>
-        RwK: 0.98 (Low: 0.95 - High: 1.02)<br>
+        Rendered Data: 2021-02-02<br>
+        RwK: 0.97 (Low: 0.95 - High: 0.98)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -472,23 +471,23 @@
         }
 
         function updateGraph () {
-            var cases     = [1780, 1207, 927, 879, 946, ]
-            var casesHigh = [1780, 1207, 927, 879, 946, ]
-            var casesLow  = [1780, 1207, 927, 879, 946, ]
-            var labels    = ['2020-12-28', '2021-01-04', '2021-01-11', '2021-01-18', '2021-01-25', ]
+            var cases     = [1668, 1136, 912, 886, 938, ]
+            var casesHigh = [1668, 1136, 912, 886, 938, ]
+            var casesLow  = [1668, 1136, 912, 886, 938, ]
+            var labels    = ['2020-12-29', '2021-01-05', '2021-01-12', '2021-01-19', '2021-01-26', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(913)
-                    casesHigh.push(913)
-                    casesLow.push(913)
+                    cases.push(894)
+                    casesHigh.push(894)
+                    casesLow.push(894)
                 } else {
-                    cases.push(cases[cases.length-1] * 0.9807692307692307)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 1.0159651950737243)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.9479301950713003)
+                    cases.push(cases[cases.length-1] * 0.9659247889485802)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.9829516368026466)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.9494777806656522)
                 }
             }
 
