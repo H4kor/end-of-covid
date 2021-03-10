@@ -430,7 +430,7 @@
             
         
         <h2>
-            14 Active Cases
+            13 Active Cases
         </h2>
         <h3>
             -1 active cases last week
@@ -450,7 +450,7 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2021-03-08<br>
+        Rendered Data: 2021-03-09<br>
         RwK: 0.95 (Low: 0.95 - High: 0.95)<br>
     </div>
 
@@ -471,23 +471,23 @@
         }
 
         function updateGraph () {
-            var cases     = [11, 11, 13, 13, 15, ]
-            var casesHigh = [11, 11, 13, 13, 15, ]
-            var casesLow  = [11, 11, 13, 13, 15, ]
-            var labels    = ['2021-02-01', '2021-02-08', '2021-02-15', '2021-02-22', '2021-03-01', ]
+            var cases     = [11, 11, 13, 15, 14, ]
+            var casesHigh = [11, 11, 13, 15, 14, ]
+            var casesLow  = [11, 11, 13, 15, 14, ]
+            var labels    = ['2021-02-02', '2021-02-09', '2021-02-16', '2021-02-23', '2021-03-02', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(14)
-                    casesHigh.push(14)
-                    casesLow.push(14)
+                    cases.push(13)
+                    casesHigh.push(13)
+                    casesLow.push(13)
                 } else {
-                    cases.push(cases[cases.length-1] * 0.95)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.95)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.95)
+                    cases.push(cases[cases.length-1] * 0.9473684210526315)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.9473684210526315)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.9473684210526315)
                 }
             }
 
