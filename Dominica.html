@@ -430,10 +430,10 @@
             
         
         <h2>
-            7 Active Cases
+            6 Active Cases
         </h2>
         <h3>
-            -5 active cases last week
+            -4 active cases last week
             <span style="font-size:0.8em;">(± 2)</span>
         </h3>
 
@@ -450,8 +450,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2021-04-01<br>
-        RwK: 0.69 (Low: 0.60 - High: 0.80)<br>
+        Rendered Data: 2021-04-02<br>
+        RwK: 0.70 (Low: 0.60 - High: 0.84)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -471,23 +471,23 @@
         }
 
         function updateGraph () {
-            var cases     = [15, 14, 13, 15, 9, ]
-            var casesHigh = [15, 14, 13, 15, 9, ]
-            var casesLow  = [15, 14, 13, 15, 9, ]
-            var labels    = ['2021-02-25', '2021-03-04', '2021-03-11', '2021-03-18', '2021-03-25', ]
+            var cases     = [15, 14, 15, 15, 8, ]
+            var casesHigh = [15, 14, 15, 15, 8, ]
+            var casesLow  = [15, 14, 15, 15, 8, ]
+            var labels    = ['2021-02-26', '2021-03-05', '2021-03-12', '2021-03-19', '2021-03-26', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(7)
-                    casesHigh.push(7)
-                    casesLow.push(7)
+                    cases.push(6)
+                    casesHigh.push(6)
+                    casesLow.push(6)
                 } else {
-                    cases.push(cases[cases.length-1] * 0.6885245901639343)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.8037727999383327)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.6021813775894488)
+                    cases.push(cases[cases.length-1] * 0.7)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.8424606766467455)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.5987508258204997)
                 }
             }
 
