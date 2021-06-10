@@ -8,18 +8,43 @@ import numpy as np
 
 
 env = Environment(
-    loader=FileSystemLoader('templates'),
-    autoescape=select_autoescape(['html', 'xml'])
+    loader=FileSystemLoader("templates"), autoescape=select_autoescape(["html", "xml"])
 )
+
 
 class NoDataError(Exception):
     pass
 
 
-deaths = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv").groupby(["Country/Region"]).sum()
-recovered = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv").groupby(["Country/Region"]).sum()
-confirmed = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv").groupby(["Country/Region"]).sum()
+deaths = (
+    pd.read_csv(
+        "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+    )
+    .groupby(["Country/Region"])
+    .sum()
+)
+recovered = (
+    pd.read_csv(
+        "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"
+    )
+    .groupby(["Country/Region"])
+    .sum()
+)
+confirmed = (
+    pd.read_csv(
+        "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+    )
+    .groupby(["Country/Region"])
+    .sum()
+)
+
+for r in range(recovered.shape[0]):
+    for c in range(16, recovered.shape[1]):
+        if recovered.iloc[r, c] == 0:
+            recovered.iloc[r, c] = confirmed.iloc[r, c - 21]
+
 active = confirmed - recovered - deaths
+
 
 def get_data(date=None, iso=None):
     result = {}
@@ -37,26 +62,32 @@ def get_data(date=None, iso=None):
 
     return result
 
+
 def get_statistics(iso):
     now = get_data(None, iso=iso)
     nowDate = now["date"]
 
     data = []
     for i in range(0, 7):
-        point_a = (nowDate - timedelta(days = i))
-        point_b = (nowDate - timedelta(days = i + 7))
-        data.append(get_data(point_a, iso=iso)["active"] - get_data(point_b, iso=iso)["active"])
+        point_a = nowDate - timedelta(days=i)
+        point_b = nowDate - timedelta(days=i + 7)
+        data.append(
+            get_data(point_a, iso=iso)["active"] - get_data(point_b, iso=iso)["active"]
+        )
 
     past = []
     for i in range(-5, 0, 1):
-        p = (nowDate + timedelta(days = i * 7))
+        p = nowDate + timedelta(days=i * 7)
         past.append(get_data(p, iso=iso))
 
     mean = np.mean(data)
     std = np.std(data)
     return now, mean, std, past
 
-def render_page(now, mean, std, past, regionCode, regionName, regions, endOn=100, vaccination=None):
+
+def render_page(
+    now, mean, std, past, regionCode, regionName, regions, endOn=100, vaccination=None
+):
     template = env.get_template("world.html")
     if now["active"] == 0:
         rwk = 1
@@ -104,9 +135,10 @@ def render_page(now, mean, std, past, regionCode, regionName, regions, endOn=100
         regionCode=regionCode,
         regionName=regionName,
         regions=regions,
-        vaccination=vaccination
+        vaccination=vaccination,
     )
     return html
+
 
 def render_world(regions):
     try:
@@ -115,9 +147,7 @@ def render_world(regions):
         print("No data for", "World")
         errorTemplate = env.get_template("error.html")
         html = errorTemplate.render(
-            regionCode="world",
-            regionName="World",
-            regions=regions,
+            regionCode="world", regionName="World", regions=regions
         )
     else:
         html = render_page(
@@ -130,8 +160,9 @@ def render_world(regions):
             regions=regions,
         )
 
-    with open('dist/index.html', 'w') as f:
+    with open("dist/index.html", "w") as f:
         f.write(html)
+
 
 def render_region(regions, region):
     regionCode = region["iso"]
@@ -143,9 +174,7 @@ def render_region(regions, region):
         print("No data for", region["name"])
         errorTemplate = env.get_template("error.html")
         html = errorTemplate.render(
-            regionCode=regionCode,
-            regionName=region["name"],
-            regions=regions,
+            regionCode=regionCode, regionName=region["name"], regions=regions
         )
     else:
         html = render_page(
@@ -156,28 +185,34 @@ def render_region(regions, region):
             regionCode=regionCode,
             regionName=region["name"],
             regions=regions,
-            vaccination=get_region_vaccination_data(region["name"])
+            vaccination=get_region_vaccination_data(region["name"]),
         )
 
-    with open(f'dist/{regionCode}.html', 'w') as f:
+    with open(f"dist/{regionCode}.html", "w") as f:
         f.write(html)
+
 
 def get_region_vaccination_data(region):
     if region == "Germany":
-        df = pd.read_csv("https://impfdashboard.de/static/data/germany_vaccinations_timeseries_v2.tsv", sep='\t')
+        df = pd.read_csv(
+            "https://impfdashboard.de/static/data/germany_vaccinations_timeseries_v2.tsv",
+            sep="\t",
+        )
         vac = {
             "data": [],
             "source": {
                 "url": "https://impfdashboard.de/",
                 "name": "impfdashboard.de, RKI, BMG.",
-            }
+            },
         }
         for i, r in df.iterrows():
-            vac["data"].append({
-                "date": r["date"],
-                "first": r["impf_quote_erst"],
-                "full": r["impf_quote_voll"],
-            })
+            vac["data"].append(
+                {
+                    "date": r["date"],
+                    "first": r["impf_quote_erst"],
+                    "full": r["impf_quote_voll"],
+                }
+            )
         return vac
     else:
         return None
@@ -189,5 +224,6 @@ def main():
     for region in tqdm(regions):
         render_region(regions, region)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
