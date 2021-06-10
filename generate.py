@@ -41,9 +41,14 @@ confirmed = (
 for r in range(recovered.shape[0]):
     for c in range(16, recovered.shape[1]):
         if recovered.iloc[r, c] == 0:
-            recovered.iloc[r, c] = confirmed.iloc[r, c - 21]
+            recovered.iloc[r, c] = confirmed.iloc[r, c - 14] - deaths.iloc[r, c]
 
 active = confirmed - recovered - deaths
+
+
+# for r in range(recovered.shape[0]):
+#     for c in range(9, recovered.shape[1]):
+#         active.iloc[r, c] = confirmed.iloc[r, c] - confirmed.iloc[r, c - 7]
 
 
 def get_data(date=None, iso=None):
