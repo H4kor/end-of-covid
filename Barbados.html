@@ -431,16 +431,16 @@
             
             
                 <h1>
-                    The Pandemic will start again in 2 to 11 weeks.
+                    The Pandemic will start again in 2 to 3 weeks.
                 </h1>
             
         
         <h2>
-            33 Active Cases
+            35 Active Cases
         </h2>
         <h3>
-            +14 active cases last week
-            <span style="font-size:0.8em;">(± 10)</span>
+            +18 active cases last week
+            <span style="font-size:0.8em;">(± 5)</span>
         </h3>
 
         <br>
@@ -456,8 +456,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2021-06-29<br>
-        RwK: 1.59 (Low: 1.11 - High: 2.79)<br>
+        Rendered Data: 2021-06-30<br>
+        RwK: 1.84 (Low: 1.46 - High: 2.50)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -477,23 +477,23 @@
         }
 
         function updateGraph () {
-            var cases     = [31, 48, 63, 20, 10, ]
-            var casesHigh = [31, 48, 63, 20, 10, ]
-            var casesLow  = [31, 48, 63, 20, 10, ]
-            var labels    = ['2021-05-25', '2021-06-01', '2021-06-08', '2021-06-15', '2021-06-22', ]
+            var cases     = [35, 54, 22, 20, 13, ]
+            var casesHigh = [35, 54, 22, 20, 13, ]
+            var casesLow  = [35, 54, 22, 20, 13, ]
+            var labels    = ['2021-05-26', '2021-06-02', '2021-06-09', '2021-06-16', '2021-06-23', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(33)
-                    casesHigh.push(33)
-                    casesLow.push(33)
+                    cases.push(35)
+                    casesHigh.push(35)
+                    casesLow.push(35)
                 } else {
-                    cases.push(cases[cases.length-1] * 1.592814371257485)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 2.7918209727839844)
-                    casesLow.push(casesLow[casesLow.length-1] * 1.114268277600715)
+                    cases.push(cases[cases.length-1] * 1.8421052631578947)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 2.5016736603092276)
+                    casesLow.push(casesLow[casesLow.length-1] * 1.457764426954704)
                 }
             }
 
