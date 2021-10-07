@@ -432,16 +432,16 @@
             
                 
                 <h1>
-                    The Pandemic will end earliest in 40 weeks.
+                    The Pandemic will end earliest in 24 weeks.
                 </h1>    
             
         
         <h2>
-            8,359 Active Cases
+            7,943 Active Cases
         </h2>
         <h3>
-            +65 active cases last week
-            <span style="font-size:0.8em;">(± 1,068)</span>
+            -430 active cases last week
+            <span style="font-size:0.8em;">(± 1,227)</span>
         </h3>
 
         <br>
@@ -457,8 +457,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2021-10-05<br>
-        RwK: 1.01 (Low: 0.89 - High: 1.16)<br>
+        Rendered Data: 2021-10-06<br>
+        RwK: 0.95 (Low: 0.83 - High: 1.11)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -478,23 +478,23 @@
         }
 
         function updateGraph () {
-            var cases     = [6458, 6232, 7735, 9005, 10002, ]
-            var casesHigh = [6458, 6232, 7735, 9005, 10002, ]
-            var casesLow  = [6458, 6232, 7735, 9005, 10002, ]
-            var labels    = ['2021-08-31', '2021-09-07', '2021-09-14', '2021-09-21', '2021-09-28', ]
+            var cases     = [6320, 6400, 7933, 9046, 10230, ]
+            var casesHigh = [6320, 6400, 7933, 9046, 10230, ]
+            var casesLow  = [6320, 6400, 7933, 9046, 10230, ]
+            var labels    = ['2021-09-01', '2021-09-08', '2021-09-15', '2021-09-22', '2021-09-29', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(8359)
-                    casesHigh.push(8359)
-                    casesLow.push(8359)
+                    cases.push(7943)
+                    casesHigh.push(7943)
+                    casesLow.push(7943)
                 } else {
-                    cases.push(cases[cases.length-1] * 1.0078843174384575)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 1.156783204792603)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.8929460377830056)
+                    cases.push(cases[cases.length-1] * 0.948626575048168)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 1.11147583906362)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.8273991589054386)
                 }
             }
 
