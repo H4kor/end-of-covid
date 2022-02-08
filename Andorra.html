@@ -411,6 +411,8 @@
             
                 <option value="West Bank and Gaza" >West Bank and Gaza</option>
             
+                <option value="Winter Olympics 2022" >Winter Olympics 2022</option>
+            
                 <option value="Yemen" >Yemen</option>
             
                 <option value="Zambia" >Zambia</option>
@@ -432,18 +434,17 @@
         
             
             
-                
                 <h1>
-                    The Pandemic will end earliest in 8 weeks.
-                </h1>    
+                    The Pandemic will end in 8 to 32 weeks.
+                </h1>
             
         
         <h2>
-            3,574 Active Cases
+            3,783 Active Cases
         </h2>
         <h3>
-            -986 active cases last week
-            <span style="font-size:0.8em;">(± 1,251)</span>
+            -1,460 active cases last week
+            <span style="font-size:0.8em;">(± 1,001)</span>
         </h3>
 
         <br>
@@ -459,8 +460,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2022-02-06<br>
-        RwK: 0.78 (Low: 0.62 - High: 1.08)<br>
+        Rendered Data: 2022-02-07<br>
+        RwK: 0.72 (Low: 0.61 - High: 0.89)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -480,23 +481,23 @@
         }
 
         function updateGraph () {
-            var cases     = [3191, 4678, 6148, 6617, 5668, ]
-            var casesHigh = [3191, 4678, 6148, 6617, 5668, ]
-            var casesLow  = [3191, 4678, 6148, 6617, 5668, ]
-            var labels    = ['2022-01-02', '2022-01-09', '2022-01-16', '2022-01-23', '2022-01-30', ]
+            var cases     = [3440, 5651, 5386, 5042, 6070, ]
+            var casesHigh = [3440, 5651, 5386, 5042, 6070, ]
+            var casesLow  = [3440, 5651, 5386, 5042, 6070, ]
+            var labels    = ['2022-01-03', '2022-01-10', '2022-01-17', '2022-01-24', '2022-01-31', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(3574)
-                    casesHigh.push(3574)
-                    casesLow.push(3574)
+                    cases.push(3783)
+                    casesHigh.push(3783)
+                    casesLow.push(3783)
                 } else {
-                    cases.push(cases[cases.length-1] * 0.7839351649039364)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 1.0798487132218355)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.615318069652119)
+                    cases.push(cases[cases.length-1] * 0.7217987804878049)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.8920135412871747)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.6061355030881423)
                 }
             }
 
