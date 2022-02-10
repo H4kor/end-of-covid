@@ -35,6 +35,8 @@
             
                 <option value="Angola" >Angola</option>
             
+                <option value="Antarctica" >Antarctica</option>
+            
                 <option value="Antigua and Barbuda" >Antigua and Barbuda</option>
             
                 <option value="Argentina" >Argentina</option>
@@ -434,17 +436,18 @@
         
             
             
+                
                 <h1>
-                    The Pandemic will end in 18 to 380 weeks.
-                </h1>
+                    The Pandemic will end earliest in 25 weeks.
+                </h1>    
             
         
         <h2>
-            71,196 Active Cases
+            71,268 Active Cases
         </h2>
         <h3>
-            -17,032 active cases last week
-            <span style="font-size:0.8em;">(± 15,789)</span>
+            -10,336 active cases last week
+            <span style="font-size:0.8em;">(± 11,222)</span>
         </h3>
 
         <br>
@@ -460,8 +463,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2022-02-08<br>
-        RwK: 0.81 (Low: 0.68 - High: 0.98)<br>
+        Rendered Data: 2022-02-09<br>
+        RwK: 0.87 (Low: 0.77 - High: 1.01)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -481,23 +484,23 @@
         }
 
         function updateGraph () {
-            var cases     = [200542, 289836, 248386, 132363, 71631, ]
-            var casesHigh = [200542, 289836, 248386, 132363, 71631, ]
-            var casesLow  = [200542, 289836, 248386, 132363, 71631, ]
-            var labels    = ['2022-01-04', '2022-01-11', '2022-01-18', '2022-01-25', '2022-02-01', ]
+            var cases     = [211891, 294317, 237573, 117059, 70728, ]
+            var casesHigh = [211891, 294317, 237573, 117059, 70728, ]
+            var casesLow  = [211891, 294317, 237573, 117059, 70728, ]
+            var labels    = ['2022-01-05', '2022-01-12', '2022-01-19', '2022-01-26', '2022-02-02', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(71196)
-                    casesHigh.push(71196)
-                    casesLow.push(71196)
+                    cases.push(71268)
+                    casesHigh.push(71268)
+                    casesLow.push(71268)
                 } else {
-                    cases.push(cases[cases.length-1] * 0.8069604216082314)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.9828381427089306)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.6844745176832698)
+                    cases.push(cases[cases.length-1] * 0.8733396584440227)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 1.01258966178869)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.7677585137407964)
                 }
             }
 
