@@ -439,7 +439,7 @@
             
             
                 <h1>
-                    The Pandemic might start again in the next 103 weeks.
+                    The pandemic is over!
                 </h1>
             
         
@@ -447,7 +447,7 @@
             10 Active Cases
         </h2>
         <h3>
-            -1 active cases last week
+            -2 active cases last week
             <span style="font-size:0.8em;">(± 1)</span>
         </h3>
 
@@ -464,8 +464,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2022-06-18<br>
-        RwK: 0.91 (Low: 0.82 - High: 1.02)<br>
+        Rendered Data: 2022-06-19<br>
+        RwK: 0.88 (Low: 0.80 - High: 0.97)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -485,10 +485,10 @@
         }
 
         function updateGraph () {
-            var cases     = [11, 17, 12, 13, 12, ]
-            var casesHigh = [11, 17, 12, 13, 12, ]
-            var casesLow  = [11, 17, 12, 13, 12, ]
-            var labels    = ['2022-05-14', '2022-05-21', '2022-05-28', '2022-06-04', '2022-06-11', ]
+            var cases     = [11, 17, 12, 13, 14, ]
+            var casesHigh = [11, 17, 12, 13, 14, ]
+            var casesLow  = [11, 17, 12, 13, 14, ]
+            var labels    = ['2022-05-15', '2022-05-22', '2022-05-29', '2022-06-05', '2022-06-12', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
@@ -499,9 +499,9 @@
                     casesHigh.push(10)
                     casesLow.push(10)
                 } else {
-                    cases.push(cases[cases.length-1] * 0.9130434782608696)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 1.0226823942953787)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.8246365072574402)
+                    cases.push(cases[cases.length-1] * 0.875)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.9676449506429062)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.7985451250509542)
                 }
             }
 
