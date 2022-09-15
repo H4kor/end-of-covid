@@ -277,6 +277,8 @@
             
                 <option value="Namibia" >Namibia</option>
             
+                <option value="Nauru" >Nauru</option>
+            
                 <option value="Nepal" >Nepal</option>
             
                 <option value="Netherlands" >Netherlands</option>
@@ -393,6 +395,8 @@
             
                 <option value="Turkey" >Turkey</option>
             
+                <option value="Tuvalu" >Tuvalu</option>
+            
                 <option value="US" >US</option>
             
                 <option value="Uganda" >Uganda</option>
@@ -439,16 +443,16 @@
             
             
                 <h1>
-                    The Pandemic will end in 1 to 2 weeks.
+                    The Pandemic will end in 2 to 5 weeks.
                 </h1>
             
         
         <h2>
-            195 Active Cases
+            184 Active Cases
         </h2>
         <h3>
-            -159 active cases last week
-            <span style="font-size:0.8em;">(± 47)</span>
+            -58 active cases last week
+            <span style="font-size:0.8em;">(± 33)</span>
         </h3>
 
         <br>
@@ -464,8 +468,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2022-09-07<br>
-        RwK: 0.56 (Low: 0.49 - High: 0.64)<br>
+        Rendered Data: 2022-09-14<br>
+        RwK: 0.76 (Low: 0.67 - High: 0.88)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -485,23 +489,23 @@
         }
 
         function updateGraph () {
-            var cases     = [92, 77, 220, 363, 283, ]
-            var casesHigh = [92, 77, 220, 363, 283, ]
-            var casesLow  = [92, 77, 220, 363, 283, ]
-            var labels    = ['2022-08-03', '2022-08-10', '2022-08-17', '2022-08-24', '2022-08-31', ]
+            var cases     = [77, 220, 363, 283, 195, ]
+            var casesHigh = [77, 220, 363, 283, 195, ]
+            var casesLow  = [77, 220, 363, 283, 195, ]
+            var labels    = ['2022-08-10', '2022-08-17', '2022-08-24', '2022-08-31', '2022-09-07', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(195)
-                    casesHigh.push(195)
-                    casesLow.push(195)
+                    cases.push(184)
+                    casesHigh.push(184)
+                    casesLow.push(184)
                 } else {
-                    cases.push(cases[cases.length-1] * 0.5568814638027049)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.6424617869237723)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.4914208332226506)
+                    cases.push(cases[cases.length-1] * 0.7634160415464513)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.8843021593862632)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.6716059760591564)
                 }
             }
 

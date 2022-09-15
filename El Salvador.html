@@ -277,6 +277,8 @@
             
                 <option value="Namibia" >Namibia</option>
             
+                <option value="Nauru" >Nauru</option>
+            
                 <option value="Nepal" >Nepal</option>
             
                 <option value="Netherlands" >Netherlands</option>
@@ -393,6 +395,8 @@
             
                 <option value="Turkey" >Turkey</option>
             
+                <option value="Tuvalu" >Tuvalu</option>
+            
                 <option value="US" >US</option>
             
                 <option value="Uganda" >Uganda</option>
@@ -438,17 +442,16 @@
         
             
             
-                
                 <h1>
-                    Something weird is happening
+                    The Pandemic will start again in 0 to 0 weeks.
                 </h1>
             
         
         <h2>
-            10,967 Active Cases
+            0 Active Cases
         </h2>
         <h3>
-            +7,833 active cases last week
+            -3,133 active cases last week
             <span style="font-size:0.8em;">(± 4,954)</span>
         </h3>
 
@@ -465,8 +468,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2022-09-07<br>
-        RwK: 3.50 (Low: 1.36 - High: -6.04)<br>
+        Rendered Data: 2022-09-14<br>
+        RwK: 1.00 (Low: 1.00 - High: 1.00)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -486,23 +489,23 @@
         }
 
         function updateGraph () {
-            var cases     = [9848, 0, 0, 0, 10967, ]
-            var casesHigh = [9848, 0, 0, 0, 10967, ]
-            var casesLow  = [9848, 0, 0, 0, 10967, ]
-            var labels    = ['2022-08-03', '2022-08-10', '2022-08-17', '2022-08-24', '2022-08-31', ]
+            var cases     = [0, 0, 0, 10967, 10967, ]
+            var casesHigh = [0, 0, 0, 10967, 10967, ]
+            var casesLow  = [0, 0, 0, 10967, 10967, ]
+            var labels    = ['2022-08-10', '2022-08-17', '2022-08-24', '2022-08-31', '2022-09-07', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(10967)
-                    casesHigh.push(10967)
-                    casesLow.push(10967)
+                    cases.push(0)
+                    casesHigh.push(0)
+                    casesLow.push(0)
                 } else {
-                    cases.push(cases[cases.length-1] * 3.496017115025718)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * -6.041993237995976)
-                    casesLow.push(casesLow[casesLow.length-1] * 1.3557706611236962)
+                    cases.push(cases[cases.length-1] * 1)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 1)
+                    casesLow.push(casesLow[casesLow.length-1] * 1)
                 }
             }
 

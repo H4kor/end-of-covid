@@ -277,6 +277,8 @@
             
                 <option value="Namibia" >Namibia</option>
             
+                <option value="Nauru" >Nauru</option>
+            
                 <option value="Nepal" >Nepal</option>
             
                 <option value="Netherlands" >Netherlands</option>
@@ -393,6 +395,8 @@
             
                 <option value="Turkey" >Turkey</option>
             
+                <option value="Tuvalu" >Tuvalu</option>
+            
                 <option value="US" >US</option>
             
                 <option value="Uganda" >Uganda</option>
@@ -438,18 +442,17 @@
         
             
             
-                
                 <h1>
-                    The Pandemic will end earliest in 13 weeks.
-                </h1>    
+                    The Pandemic will end in 9 to 19 weeks.
+                </h1>
             
         
         <h2>
-            51,911 Active Cases
+            45,426 Active Cases
         </h2>
         <h3>
-            -12,716 active cases last week
-            <span style="font-size:0.8em;">(± 20,206)</span>
+            -32,294 active cases last week
+            <span style="font-size:0.8em;">(± 14,736)</span>
         </h3>
 
         <br>
@@ -465,8 +468,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2022-09-07<br>
-        RwK: 0.80 (Low: 0.61 - High: 1.17)<br>
+        Rendered Data: 2022-09-14<br>
+        RwK: 0.58 (Low: 0.49 - High: 0.72)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -486,23 +489,23 @@
         }
 
         function updateGraph () {
-            var cases     = [280171, 188754, 146463, 118601, 64857, ]
-            var casesHigh = [280171, 188754, 146463, 118601, 64857, ]
-            var casesLow  = [280171, 188754, 146463, 118601, 64857, ]
-            var labels    = ['2022-08-03', '2022-08-10', '2022-08-17', '2022-08-24', '2022-08-31', ]
+            var cases     = [188754, 146463, 118601, 64857, 51911, ]
+            var casesHigh = [188754, 146463, 118601, 64857, 51911, ]
+            var casesLow  = [188754, 146463, 118601, 64857, 51911, ]
+            var labels    = ['2022-08-10', '2022-08-17', '2022-08-24', '2022-08-31', '2022-09-07', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(51911)
-                    casesHigh.push(51911)
-                    casesLow.push(51911)
+                    cases.push(45426)
+                    casesHigh.push(45426)
+                    casesLow.push(45426)
                 } else {
-                    cases.push(cases[cases.length-1] * 0.8032535779410952)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 1.1686024045131358)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.6119386611474485)
+                    cases.push(cases[cases.length-1] * 0.5845094885815375)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.7212529895517124)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.4913530774518034)
                 }
             }
 
