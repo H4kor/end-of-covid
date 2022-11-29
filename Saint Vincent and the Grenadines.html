@@ -443,7 +443,7 @@
             
             
                 <h1>
-                    The Pandemic might start again in the next 16 weeks.
+                    The Pandemic might start again in the next 66 weeks.
                 </h1>
             
         
@@ -452,7 +452,7 @@
         </h2>
         <h3>
             +0 active cases last week
-            <span style="font-size:0.8em;">(± 1)</span>
+            <span style="font-size:0.8em;">(± 0)</span>
         </h3>
 
         <br>
@@ -468,8 +468,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2022-11-21<br>
-        RwK: 1.08 (Low: 0.94 - High: 1.25)<br>
+        Rendered Data: 2022-11-28<br>
+        RwK: 0.97 (Low: 0.89 - High: 1.05)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -489,10 +489,10 @@
         }
 
         function updateGraph () {
-            var cases     = [2, 4, 7, 7, 2, ]
-            var casesHigh = [2, 4, 7, 7, 2, ]
-            var casesLow  = [2, 4, 7, 7, 2, ]
-            var labels    = ['2022-10-17', '2022-10-24', '2022-10-31', '2022-11-07', '2022-11-14', ]
+            var cases     = [4, 7, 7, 2, 3, ]
+            var casesHigh = [4, 7, 7, 2, 3, ]
+            var casesLow  = [4, 7, 7, 2, 3, ]
+            var labels    = ['2022-10-24', '2022-10-31', '2022-11-07', '2022-11-14', '2022-11-21', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
@@ -503,9 +503,9 @@
                     casesHigh.push(3)
                     casesLow.push(3)
                 } else {
-                    cases.push(cases[cases.length-1] * 1.0769230769230769)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 1.2541563308632355)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.9435795181933684)
+                    cases.push(cases[cases.length-1] * 0.9655172413793103)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 1.0545936680214718)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.8903165116192467)
                 }
             }
 
