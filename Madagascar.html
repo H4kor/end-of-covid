@@ -443,16 +443,16 @@
             
             
                 <h1>
-                    The pandemic is over!
+                    The Pandemic might start again in the next 1 weeks.
                 </h1>
             
         
         <h2>
-            25 Active Cases
+            38 Active Cases
         </h2>
         <h3>
-            -36 active cases last week
-            <span style="font-size:0.8em;">(± 6)</span>
+            +1 active cases last week
+            <span style="font-size:0.8em;">(± 27)</span>
         </h3>
 
         <br>
@@ -468,8 +468,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2023-01-14<br>
-        RwK: 0.45 (Low: 0.41 - High: 0.50)<br>
+        Rendered Data: 2023-01-19<br>
+        RwK: 1.05 (Low: 0.62 - High: 3.22)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -489,23 +489,23 @@
         }
 
         function updateGraph () {
-            var cases     = [434, 362, 196, 114, 66, ]
-            var casesHigh = [434, 362, 196, 114, 66, ]
-            var casesLow  = [434, 362, 196, 114, 66, ]
-            var labels    = ['2022-12-10', '2022-12-17', '2022-12-24', '2022-12-31', '2023-01-07', ]
+            var cases     = [362, 196, 114, 66, 25, ]
+            var casesHigh = [362, 196, 114, 66, 25, ]
+            var casesLow  = [362, 196, 114, 66, 25, ]
+            var labels    = ['2022-12-15', '2022-12-22', '2022-12-29', '2023-01-05', '2023-01-12', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(25)
-                    casesHigh.push(25)
-                    casesLow.push(25)
+                    cases.push(38)
+                    casesHigh.push(38)
+                    casesLow.push(38)
                 } else {
-                    cases.push(cases[cases.length-1] * 0.449678800856531)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.5005173978267615)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.4082155003056426)
+                    cases.push(cases[cases.length-1] * 1.0451388888888888)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 3.2245464342655508)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.6236357471167908)
                 }
             }
 
