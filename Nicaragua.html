@@ -448,10 +448,10 @@
             
         
         <h2>
-            15 Active Cases
+            11 Active Cases
         </h2>
         <h3>
-            -20 active cases last week
+            -4 active cases last week
             <span style="font-size:0.8em;">(± 0)</span>
         </h3>
 
@@ -468,8 +468,8 @@
     <br>
 
     <div style="font-size:0.8em">
-        Rendered Data: 2023-02-28<br>
-        RwK: 0.50 (Low: 0.50 - High: 0.50)<br>
+        Rendered Data: 2023-03-07<br>
+        RwK: 0.80 (Low: 0.80 - High: 0.80)<br>
     </div>
 
     <script src="Chart.js"></script>
@@ -489,23 +489,23 @@
         }
 
         function updateGraph () {
-            var cases     = [75, 62, 51, 43, 35, ]
-            var casesHigh = [75, 62, 51, 43, 35, ]
-            var casesLow  = [75, 62, 51, 43, 35, ]
-            var labels    = ['2023-01-24', '2023-01-31', '2023-02-07', '2023-02-14', '2023-02-21', ]
+            var cases     = [62, 51, 43, 35, 15, ]
+            var casesHigh = [62, 51, 43, 35, 15, ]
+            var casesLow  = [62, 51, 43, 35, 15, ]
+            var labels    = ['2023-01-31', '2023-02-07', '2023-02-14', '2023-02-21', '2023-02-28', ]
 
             for (var i = 0; i < 16; i++) {
                 if (i === 0) labels.push('Now')
                 else labels.push(`+ ${i} weeks`)
 
                 if (i === 0) {
-                    cases.push(15)
-                    casesHigh.push(15)
-                    casesLow.push(15)
+                    cases.push(11)
+                    casesHigh.push(11)
+                    casesLow.push(11)
                 } else {
-                    cases.push(cases[cases.length-1] * 0.5)
-                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.5)
-                    casesLow.push(casesLow[casesLow.length-1] * 0.5)
+                    cases.push(cases[cases.length-1] * 0.8)
+                    casesHigh.push(casesHigh[casesHigh.length-1] * 0.8)
+                    casesLow.push(casesLow[casesLow.length-1] * 0.8)
                 }
             }
 
